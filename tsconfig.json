@@ -17,7 +17,10 @@
     "suppressImplicitAnyIndexErrors": true,
     "baseUrl": ".",
     "paths": {
-      "@styles/*": ["./src/styles/*"]
+      "@styles/*": ["./src/styles/*"],
+      "@const/*": ["./src/const/*"],
+      "@customHooks/*": ["./src/customHooks/*"],
+      "@generic/*": ["./src/components/generic/*"]
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
