@@ -24,9 +24,13 @@ export const SandboxArea = styled.div<ISandboxArea>`
 
   position: relative;
 
-  background-image: url('./sandFolds.png'), linear-gradient(180deg, #faffdf 0%, #ffeeba 100%);
+  background-image: url('./sandFolds.png'),
+    ${({ theme: { colors } }): string => colors.gradients.sandboxBackground};
 
-  border: 0.4rem solid ${({ theme: { colors } }): string => colors.black};
+  border-width: 0.4rem;
+  border-style: solid;
+  border-image: ${({ theme: { colors } }): string => colors.gradients.sandboxBorder} 1 / 1 / 0
+    stretch;
 
   box-shadow: -15px 19px 30px rgba(0, 0, 0, 0.25);
 

@@ -14,6 +14,10 @@ interface IColors {
     dangerCard: string;
     cardPack: string;
   };
+  gradients: {
+    sandboxBackground: string;
+    sandboxBorder: string;
+  };
 }
 
 export const colors: IColors = {
@@ -29,6 +33,10 @@ export const colors: IColors = {
     humanCard: '#F7E5DC',
     dangerCard: '#CA0B00',
     cardPack: '#333333',
+  },
+  gradients: {
+    sandboxBackground: 'linear-gradient(180deg, #faffdf 0%, #ffeeba 100%)',
+    sandboxBorder: 'linear-gradient(297.98deg, #cf7a68 7.86%, #b9697a 47.98%, #956184 91.6%)',
   },
 };
 
