@@ -3,6 +3,7 @@ import React from 'react';
 import GenericCard from '@generic/cards/GenericCard';
 import {
   HomepageContainer,
+  HomepageTitle,
   HomepageSignature,
   HomepageSignatureLink,
 } from '@generic/Homepage.styles';
@@ -18,7 +19,7 @@ export default function Homepage(): JSX.Element {
         </HomepageSignatureLink>
       </HomepageSignature>
 
-      <h1 style={{ textAlign: 'center' }}>Cardlands</h1>
+      <HomepageTitle>Cardlands</HomepageTitle>
 
       <Sandbox>
         <GenericCard />

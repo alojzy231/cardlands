@@ -1,5 +1,7 @@
 import styled from 'styled-components';
 
+import { Header2 } from '@styles/typography';
+
 export const HomepageContainer = styled.div`
   height: 100vh;
 
@@ -9,6 +11,10 @@ export const HomepageContainer = styled.div`
 
 export const HomepageTitle = styled.h1`
   text-align: center;
+
+  @media (max-width: ${({ theme: { medias } }): string => medias.mediumMobile}) {
+    ${Header2};
+  }
 `;
 
 export const HomepageSignature = styled.h6`
