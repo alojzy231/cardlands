@@ -2,9 +2,8 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { RefObject, useEffect } from 'react';
 
+import clamp from '@lib/clamp';
 import { SANDBOX_MARGIN } from '@const/sandboxProperties';
-
-const clamp = (num: number, min: number, max: number): number => Math.min(Math.max(num, min), max);
 
 const useDragToScrollSandbox = (
   sandboxRef: RefObject<HTMLDivElement>,
@@ -12,18 +11,21 @@ const useDragToScrollSandbox = (
   scale: number,
 ): void => {
   useEffect(() => {
+    let howManyFingersOnSandbox = 0;
     let isDragging: boolean = false;
     let pos = { top: 0, left: 0, x: 0, y: 0 };
 
     const dragStart = (event: PointerEvent): void => {
       if (event.target === sandboxRef.current) {
-        isDragging = true;
+        // can't assign false: this prevents from 'jumping' when more than one finger is on the sandbox
+        isDragging = howManyFingersOnSandbox === 0;
+        howManyFingersOnSandbox += 1;
 
         pos = {
-          // The current scroll
+          // the current scroll
           left: container.current!.scrollLeft,
           top: container.current!.scrollTop,
-          // Get the current mouse position
+          // get the current mouse position
           x: event.clientX,
           y: event.clientY,
         };
@@ -31,6 +33,7 @@ const useDragToScrollSandbox = (
     };
     const dragStop = (): void => {
       isDragging = false;
+      howManyFingersOnSandbox -= 1;
     };
 
     const dragMove = (event: PointerEvent): void => {
@@ -51,10 +54,10 @@ const useDragToScrollSandbox = (
           sandboxParams.width - container.current!.clientWidth + 2 * SANDBOX_MARGIN,
         );
 
-        if (sandboxParams.width >= container.current!.clientWidth) {
+        if (sandboxParams.width >= container.current!.clientWidth - SANDBOX_MARGIN) {
           container.current!.scrollLeft = newScrollLeft;
         }
-        if (sandboxParams.height >= container.current!.clientHeight) {
+        if (sandboxParams.height >= container.current!.clientHeight - SANDBOX_MARGIN) {
           container.current!.scrollTop = newScrollTop;
         }
       }
