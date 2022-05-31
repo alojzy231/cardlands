@@ -11,7 +11,7 @@ export default function Sandbox({ children }: InferType<typeof Sandbox.propTypes
   const containerRef = useRef<HTMLDivElement>(null);
   const sandboxRef = useRef<HTMLDivElement>(null);
 
-  const scale: number = useScaleInSandbox();
+  const scale: number = useScaleInSandbox(containerRef);
   useDragToScrollSandbox(sandboxRef, containerRef, scale);
 
   return (
