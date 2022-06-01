@@ -6,14 +6,15 @@ import {
   SANDBOX_MIN_SCALE,
   SANDBOX_MOUSEWHEEL_SCALE_GAP,
   SANDBOX_PINCH_SCALE_GAP,
+  SANDBOX_PINCH_SCALE_THRESHOLD,
 } from '@const/sandboxProperties';
 import clamp from '@lib/clamp';
 
 let pointerEventsCache: PointerEvent[] = [];
+
 const useScaleInSandbox = (containerRef: RefObject<HTMLDivElement>): number => {
   const [scale, setScale] = useState<number>(1);
 
-  const pointerMoveThreshold: number = 10;
   let prevDistanceBetweenPointers: number | null = null;
 
   useEffect(() => {
@@ -43,7 +44,13 @@ const useScaleInSandbox = (containerRef: RefObject<HTMLDivElement>): number => {
       );
     };
 
-    const updatePointerEvent = (event: PointerEvent): PointerEvent[] =>
+    const handleTouchUp = (event: PointerEvent): void => {
+      removeCachePointerEvent(event);
+
+      prevDistanceBetweenPointers = null;
+    };
+
+    const updatePointerEventCache = (event: PointerEvent): PointerEvent[] =>
       pointerEventsCache.map((pointerEvent: PointerEvent): PointerEvent => {
         if (pointerEvent.pointerId === event.pointerId) {
           const distanceFromPrevPosition: number = Math.hypot(
@@ -51,7 +58,7 @@ const useScaleInSandbox = (containerRef: RefObject<HTMLDivElement>): number => {
             pointerEvent.y - event.y,
           );
 
-          if (distanceFromPrevPosition > pointerMoveThreshold) {
+          if (distanceFromPrevPosition > SANDBOX_PINCH_SCALE_THRESHOLD) {
             return event;
           }
         }
@@ -61,7 +68,7 @@ const useScaleInSandbox = (containerRef: RefObject<HTMLDivElement>): number => {
 
     const changeScaleWithPinch = (event: PointerEvent): void => {
       if (pointerEventsCache.length === 2) {
-        pointerEventsCache = updatePointerEvent(event);
+        pointerEventsCache = updatePointerEventCache(event);
 
         const distanceBetweenPointers = Math.hypot(
           pointerEventsCache[0].x - pointerEventsCache[1].x,
@@ -89,13 +96,13 @@ const useScaleInSandbox = (containerRef: RefObject<HTMLDivElement>): number => {
 
     window.addEventListener('wheel', changeScaleWithWheel);
     containerRef.current!.addEventListener('pointerdown', savePointerEventToCache);
-    containerRef.current!.addEventListener('pointerup', removeCachePointerEvent);
+    containerRef.current!.addEventListener('pointerup', handleTouchUp);
     containerRef.current!.addEventListener('pointermove', changeScaleWithPinch);
 
     return () => {
       window.removeEventListener('wheel', changeScaleWithWheel);
       containerRef.current!.removeEventListener('pointerdown', savePointerEventToCache);
-      containerRef.current!.removeEventListener('pointerup', removeCachePointerEvent);
+      containerRef.current!.removeEventListener('pointerup', handleTouchUp);
       containerRef.current!.removeEventListener('pointermove', changeScaleWithPinch);
     };
   }, [scale]);
