@@ -4,8 +4,14 @@ import PropTypes, { InferType } from 'prop-types';
 
 import useScaleInSandbox from '@customHooks/useScaleInSandbox';
 import useDragToScrollSandbox from '@customHooks/useDragToScrollSandbox';
+import SellField from '@generic/cardpacks/SellField';
 
-import { SandboxContainer, SandboxArea } from './Sandbox.styles';
+import {
+  SandboxContainer,
+  SandboxArea,
+  SandboxAreaArena,
+  SandboxAreaCardpacksContainer,
+} from './Sandbox.styles';
 
 export default function Sandbox({ children }: InferType<typeof Sandbox.propTypes>): JSX.Element {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -17,7 +23,10 @@ export default function Sandbox({ children }: InferType<typeof Sandbox.propTypes
   return (
     <SandboxContainer ref={containerRef}>
       <SandboxArea scale={scale} ref={sandboxRef}>
-        {children}
+        <SandboxAreaCardpacksContainer>
+          <SellField />
+        </SandboxAreaCardpacksContainer>
+        <SandboxAreaArena>{children}</SandboxAreaArena>
       </SandboxArea>
     </SandboxContainer>
   );

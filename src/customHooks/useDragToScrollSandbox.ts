@@ -3,7 +3,7 @@
 import { RefObject, useEffect } from 'react';
 
 import clamp from '@lib/clamp';
-import { SANDBOX_MARGIN } from '@const/sandboxProperties';
+import { SANDBOX_MARGIN } from '@const/sandboxParameters';
 
 const useDragToScrollSandbox = (
   sandboxRef: RefObject<HTMLDivElement>,
@@ -16,7 +16,7 @@ const useDragToScrollSandbox = (
     let pos = { top: 0, left: 0, x: 0, y: 0 };
 
     const dragStart = (event: PointerEvent): void => {
-      if (event.target === sandboxRef.current) {
+      if (sandboxRef.current!.contains(event.target as Node)) {
         // can't assign false: this prevents from 'jumping' when more than one finger is on the sandbox
         isDragging = howManyFingersOnSandbox === 0;
         howManyFingersOnSandbox += 1;
@@ -31,9 +31,12 @@ const useDragToScrollSandbox = (
         };
       }
     };
+
     const dragStop = (): void => {
       isDragging = false;
-      howManyFingersOnSandbox -= 1;
+
+      // prevent from negative value
+      howManyFingersOnSandbox = Math.max(0, howManyFingersOnSandbox - 1);
     };
 
     const dragMove = (event: PointerEvent): void => {

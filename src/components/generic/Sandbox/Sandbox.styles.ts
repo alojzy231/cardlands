@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-import { SANDBOX_HEIGHT, SANDBOX_MARGIN, SANDBOX_WIDTH } from 'src/const/sandboxProperties';
+import { SANDBOX_HEIGHT, SANDBOX_MARGIN, SANDBOX_WIDTH } from '@const/sandboxParameters';
 
 export const SandboxContainer = styled.div`
   width: 100%;
@@ -24,6 +24,18 @@ export const SandboxArea = styled.div<ISandboxArea>`
 
   position: relative;
 
+  transform-origin: left top;
+  transform: ${({ scale }): string => `scale(${scale})`};
+`;
+
+export const SandboxAreaCardpacksContainer = styled.div`
+  margin-bottom: 3.2rem;
+`;
+
+export const SandboxAreaArena = styled.div`
+  width: 100%;
+  height: calc(100% - 24.2rem);
+
   background-image: url('./sandFolds.png'),
     ${({ theme: { colors } }): string => colors.gradients.sandboxBackground};
 
@@ -33,7 +45,4 @@ export const SandboxArea = styled.div<ISandboxArea>`
     stretch;
 
   box-shadow: -15px 19px 30px rgba(0, 0, 0, 0.25);
-
-  transform-origin: left top;
-  transform: ${({ scale }): string => `scale(${scale})`};
 `;

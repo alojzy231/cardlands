@@ -1,6 +1,5 @@
 import React from 'react';
 
-import GenericCard from '@generic/cards/GenericCard';
 import {
   HomepageContainer,
   HomepageTitle,
@@ -22,7 +21,7 @@ export default function Homepage(): JSX.Element {
       <HomepageTitle>Cardlands</HomepageTitle>
 
       <Sandbox>
-        <GenericCard />
+        <div />
       </Sandbox>
     </HomepageContainer>
   );
