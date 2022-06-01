@@ -7,7 +7,7 @@ import {
   SANDBOX_MOUSEWHEEL_SCALE_GAP,
   SANDBOX_PINCH_SCALE_GAP,
   SANDBOX_PINCH_SCALE_THRESHOLD,
-} from '@const/sandboxProperties';
+} from '@const/sandboxParameters';
 import clamp from '@lib/clamp';
 
 let pointerEventsCache: PointerEvent[] = [];

@@ -21,7 +21,8 @@
       "@lib/*": ["./src/lib/*"],
       "@const/*": ["./src/const/*"],
       "@customHooks/*": ["./src/customHooks/*"],
-      "@generic/*": ["./src/components/generic/*"]
+      "@generic/*": ["./src/components/generic/*"],
+      "@icons/*": ["./src/icons/*"]
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
